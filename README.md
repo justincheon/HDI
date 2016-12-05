@@ -1,4 +1,4 @@
-# CS165-Final-Project-Prototype
+# Human Development Index in ASEAN
 <h3>CMPS 165: Final Project</h3>
 <br>
 By: Justin Cheon, Mai Linh Ngo, Omar Quereshi 
