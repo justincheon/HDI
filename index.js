@@ -10,17 +10,13 @@ var display = function (projection_data, switchnumber){
     var legend_label = "Years of Schooling"; //label on the legend, defaults to HDI
     var data_file = "HDI.json"; //name of data file, defaults to HDI
     var data_type = "HDI";
- 
-    
     switch (switchnumber) {
         case 1:
             changeColorHDI()
             
             break;
         case 2:
-            
             changeColorGNI()
-            
             break;
         case 3:
             changeColorLife()
@@ -30,59 +26,42 @@ var display = function (projection_data, switchnumber){
             break;
         default: break;
     }
-    
-    
-    
     function changeColorHDI() {
         color = d3.scaleThreshold()
         .domain([.5, .6, .7, .8, .9].map(function(x){return x;}))
         .range(["#ccffd6", "#93e2a3", "#59c66f", "#3aad51", "#1f8e35", "#006d15"]);     //green
         legend_label = "HDI";
         data_file = "HDI.json";
-        //data_type = "HDI";
         redraw();
     }
     
     function changeColorGNI() {
-//        svg.selectAll('.legend').remove();
         color = d3.scaleThreshold()
-        .domain([2000, 5000, 10000, 20000, 70000].map(function(x){return x;}))
+        .domain([2, 5, 10, 20, 70].map(function(x){return x;}))
         .range(["#c4f1ff", "#a3eaff", "#6ec8e6", "#17a5d4", "#0086b3", "#00384c"]);     //blue
-        
-        legend_label = "GNI per capita ($)";
+        legend_label = "GNI per capita ($) x1,000";
         data_file = "gniMAP.json";
-        //data_type = "GNI";
-        
-        redraw();
-        
+        redraw();  
     }
     
     function changeColorLife() {
-//        var svgtemp = d3.selectAll(".map")._groups[0]
-//        svgtemp[0].selectAll('.legend').remove();
         color = d3.scaleThreshold()
         .domain([67,71,75,78,83].map(function(x){return x;}))
         .range(["#ffddba", "#ffcc91", "#ffaf54", "#ff9419", "#e07800", "#ba6400"]);     //orange
         legend_label = "Life Expectancy (years)";
         data_file = "lifeMAP.json";
-        //data_type = "life_expec";
         redraw();
     }
     
     function changeColorSchool() {
-//        svg.selectAll('.legend').remove();
-        
         color = d3.scaleThreshold()
         .domain([5, 6, 7, 8, 9].map(function(x){return x;}))
         .range(["#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"]);   //red (original shobhit range)
         var legend_label = "Years of School";
         data_file = "yearsMAP.json";
-        //data_type = "years_school";
         redraw();
     }
-    
     redraw();
-    
 function redraw() {
     //Shobbit helped us figure this out
     //remove the whole html svg element and redraw
@@ -170,31 +149,21 @@ function redraw() {
             var xAxis = d3.axisBottom()
             var g = svg.append("g")
                 .attr("transform", "translate(460,40)");
-            
-            //svg.selectAll("#garbage").attr("opacity", 0);
-            //svg.selectAll("#garbage").remove();
-    
-            
-            g.append("text")
+             
+            g.append("text")    //title of legend
                 .attr("class", "caption")
-                .attr("id", "#garbage")
                 .attr("x",-445)
                 .attr("y", -25)
                 .attr("fill", "#000")
                 .text(legend_label)
-                
-     
-    //============================ADD SOURCES!!!!!!!!!===================================    
+                   
     //omar - adding legend 
     //======================================= http://bl.ocks.org/KoGor/5685876
             
-    
-    //remove legend before redrawing
     var legendRectSize = 18;
     var legendSpacing = 4;
     var legend = svg.selectAll('.legend')
       .data(color.domain())
-      .attr("id", "#garbage")
       .enter()
       .append('g')
       .attr('class', 'legend')
@@ -205,10 +174,7 @@ function redraw() {
         var vert = i * height - offset; //add more here to change y value
         return 'translate(' + horz + ',' + vert + ')';
       });
-
-    // create the map legend
-    //legend.remove();
-            
+    // create the map legend         
     legend.append('rect')
       .attr('width', legendRectSize)
       .attr('height', legendRectSize)
@@ -216,14 +182,11 @@ function redraw() {
       .style('fill', color)
       .style('stroke', color);
     legend.append('text')
-      .attr('x', 24)
+      .attr('x', 45)
       .attr('y', function(d, i){ return height - (i*43) - 550;})
-      .text(function(d) { return d; });
-//    return svg; //return the svg object to further modification    
-            
+      .attr('text-anchor', 'end') //align text right
+      .text(function(d) { return d; });   
         });
-
     });
 }//end of redraw
-    
 };//end of display
