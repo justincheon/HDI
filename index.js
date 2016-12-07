@@ -185,7 +185,7 @@ function redraw() {
       .style('stroke', color);
     legend.append('text')
       .attr('x', legend_spacing) //custom spacing for each variable, because the numbers differ in size
-      .attr('y', function(d, i){ return height - (i*43) - 550;})
+      .attr('y', function(d, i){ return height - (i*43) - 552;})
       .attr('text-anchor', 'end') //align text right
       .text(function(d) { return d; });   
         });
