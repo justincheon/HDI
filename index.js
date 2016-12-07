@@ -10,10 +10,10 @@ var display = function (projection_data, switchnumber){
     var legend_label = "Years of Schooling"; //label on the legend, defaults to HDI
     var data_file = "HDI.json"; //name of data file, defaults to HDI
     var data_type = "HDI";
+    var legend_spacing = 45; //custom spacing for legend labels, defaults to HDI spacing.
     switch (switchnumber) {
         case 1:
             changeColorHDI()
-            
             break;
         case 2:
             changeColorGNI()
@@ -32,15 +32,16 @@ var display = function (projection_data, switchnumber){
         .range(["#ccffd6", "#93e2a3", "#59c66f", "#3aad51", "#1f8e35", "#006d15"]);     //green
         legend_label = "HDI";
         data_file = "HDI.json";
+        legend_spacing = 45;
         redraw();
     }
-    
     function changeColorGNI() {
         color = d3.scaleThreshold()
-        .domain([2, 5, 10, 20, 70].map(function(x){return x;}))
+        .domain([2000, 5000, 10000, 20000, 70000].map(function(x){return x;}))
         .range(["#c4f1ff", "#a3eaff", "#6ec8e6", "#17a5d4", "#0086b3", "#00384c"]);     //blue
-        legend_label = "GNI per capita ($) x1,000";
+        legend_label = "GNI per capita ($)";
         data_file = "gniMAP.json";
+        legend_spacing = 65;
         redraw();  
     }
     
@@ -50,6 +51,7 @@ var display = function (projection_data, switchnumber){
         .range(["#ffddba", "#ffcc91", "#ffaf54", "#ff9419", "#e07800", "#ba6400"]);     //orange
         legend_label = "Life Expectancy (years)";
         data_file = "lifeMAP.json";
+        legend_spacing = 43;
         redraw();
     }
     
@@ -59,6 +61,7 @@ var display = function (projection_data, switchnumber){
         .range(["#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"]);   //red (original shobhit range)
         var legend_label = "Years of School";
         data_file = "yearsMAP.json";
+        legend_spacing = 35;
         redraw();
     }
     redraw();
@@ -144,7 +147,6 @@ function redraw() {
             var x = d3.scaleLog()
                 .domain([0.4, 1])   //legend scale 
                 .range([0, 400]);
-
             
             var xAxis = d3.axisBottom()
             var g = svg.append("g")
@@ -182,11 +184,12 @@ function redraw() {
       .style('fill', color)
       .style('stroke', color);
     legend.append('text')
-      .attr('x', 45)
+      .attr('x', legend_spacing) //custom spacing for each variable, because the numbers differ in size
       .attr('y', function(d, i){ return height - (i*43) - 550;})
       .attr('text-anchor', 'end') //align text right
       .text(function(d) { return d; });   
         });
     });
 }//end of redraw
+    
 };//end of display
